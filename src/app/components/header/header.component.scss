@@ -17,12 +17,20 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 rem(60px);
+  padding: 0 rem(40px);
   span {
     text-transform: uppercase;
     appearance: none;
     outline: none;
     cursor: pointer;
+    &.title {
+      display: flex;
+      align-items: center;
+      svg {
+        height: rem(40px);
+        margin-right: rem(15px);
+      }
+    }
     &.leaderboards {
       font-size: rem(20px);
       padding: rem(10px) rem(15px);
