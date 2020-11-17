@@ -1,0 +1,72 @@
+@import '../../../util';
+
+.game-controller {
+  margin-top: rem(60px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  & > * {
+    margin-top: rem(30px);
+    margin-bottom: 0;
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+  p {
+    text-align: center;
+  }
+}
+
+@keyframes fade-in-out {
+  0% { opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+span[class*='feedback-'] {
+  display: flex;
+  align-items: center;
+  border-radius: rem(5px);
+  padding: rem(3px) rem(10px);
+  color: color('gray-lightest');
+  height: rem(29px);
+  margin-top: rem(3px) !important;
+  position: absolute;
+  font-size: rem(16px);
+  margin-right: rem(3px);
+  pointer-events: none;
+  align-self: flex-end;
+  opacity: 0;
+  &.feedback-blue {
+    background-color: color('blue-light');
+  }
+  &.feedback-red {
+    background-color: color('red-light');
+  }
+  &.animate {
+    animation: fade-in-out 1s;
+  }
+}
+
+.game-timer {
+  display: flex;
+  flex-direction: column;
+  margin-top: rem(40px);
+  width: 100%;
+  span.label {
+    text-align: center;
+    width: 100%;
+    text-transform: uppercase;
+  }
+  span.timer {
+    font-size: rem(32px);
+    font-weight: bold;
+    color: color('blue-light');
+    text-align: center;
+    width: 100%;
+    &.red {
+      color: color('red-light');
+    }
+  }
+}

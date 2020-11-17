@@ -1,0 +1,46 @@
+<app-map [data-map]="statesMapData"></app-map>
+<div class="game-controller">
+
+  <ng-template [ngIf]="state === 'start'">
+    <p>Can you name all the US states under {{ gameTime / 60 }} minutes?</p>
+    <button type="button" class="button-blue" (click)="onStart()">Start</button>
+  </ng-template>
+
+  <ng-template [ngIf]="state === 'in-progress'">
+    <input type="text" #gameInput (input)="onGameInputChange()">
+    <span class="feedback-blue" [ngClass]="{ animate: correct }">Correct!</span>
+    <span class="feedback-red" [ngClass]="{ animate: identical }">Identical!</span>
+    <div class="game-timer">
+      <span class="label">Time remaining</span>
+      <span class="timer" [ngClass]="{ red: time < 60 }">{{ formatTime(time) }}</span>
+    </div>
+  </ng-template>
+
+  <ng-template [ngIf]="state === 'finished-failed'">
+    <div class="game-timer">
+      <span class="label">States missed</span>
+      <span class="timer red">{{ statesMissed }}</span>
+    </div>
+    <p *ngIf="statesMissed >= 30">Congrats! You have been crowned the king of people who suck at this game!</p>
+    <p *ngIf="statesMissed > 5 && statesMissed < 30">You are amongst the 65% of Americans who can't name all the states! (this claim is based on b.s. statistics!)</p>
+    <p *ngIf="statesMissed > 1 && statesMissed <= 5">That was close! You almost don't suck at this point... Almost!</p>
+    <p *ngIf="statesMissed === 1">If you're reading this message it means you haven't killed yourself over this game! Please don't!</p>
+    <button type="button" class="button-red" (click)="onStart()">Retry</button>
+  </ng-template>
+
+  <ng-template [ngIf]="state === 'finished-won'">
+    <div class="game-timer">
+      <span class="label">You time</span>
+      <span class="timer">{{ formatTime(gameTime - time) }}</span>
+    </div>
+    <p>Great job! Most people can't name all the states, including the developer of this game! Can you believe that?<br>Some people also cheat! I hope you're not "some people"...</p>
+    <p>You can submit your score to the leaderboards:</p>
+    <form class="input-group" #f="ngForm" (submit)="onLeaderboardsSubmit(f)">
+      <input [disabled]="buttonsDisabled" required minlength="6" maxlength="30" pattern="^[a-zA-Z0-9][a-zA-Z0-9 ]+[a-zA-Z0-9]$" name="nickname" type="text" style="height: 2.6875rem;" placeholder="Nick name" ngModel>
+      <button type="submit" style="height: calc(100% - 0.3125rem);" class="button-blue" [disabled]="f.invalid || buttonsDisabled">Submit</button>
+    </form>
+    <p>Or play again to improve your score:</p>
+    <button type="button" class="button-red" (click)="onStart()" [disabled]="buttonsDisabled">Retry</button>
+  </ng-template>
+
+</div>

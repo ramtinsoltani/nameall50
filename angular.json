@@ -149,5 +149,8 @@
       }
     }
   },
-  "defaultProject": "nameall50"
+  "defaultProject": "nameall50",
+  "cli": {
+    "analytics": false
+  }
 }

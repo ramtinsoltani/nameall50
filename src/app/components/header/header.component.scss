@@ -1,0 +1,53 @@
+@import '../../../util';
+
+:host {
+  width: 100%;
+  height: rem(90px);
+  background-color: color('blue-light');
+  color: color('gray-lightest');
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 rem(3px) rem(20px) rgba(0,0,0, .25);
+  font-size: rem(32px);
+}
+
+.header-content {
+  width: 100%;
+  height: rem(80px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 rem(60px);
+  span {
+    text-transform: uppercase;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+    &.leaderboards {
+      font-size: rem(20px);
+      padding: rem(10px) rem(15px);
+      border: rem(1px) solid color('gray-lightest');
+      border-radius: rem(5px);
+      transition: background-color .15s ease-in-out, color .15s ease-in-out;
+      &:hover {
+        background-color: color('gray-lightest');
+        color: color('blue-light');
+      }
+    }
+  }
+}
+
+.stripes {
+  width: 100%;
+  height: rem(10px);
+  display: flex;
+  flex-direction: column;
+  .stripe-white {
+    height: rem(5px);
+    background-color: color('gray-lightest');
+  }
+  .stripe-red {
+    height: rem(5px);
+    background-color: color('red-light');
+  }
+}

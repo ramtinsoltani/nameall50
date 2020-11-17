@@ -1,1 +1,71 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import 'util';
+
+html, body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  color: color('gray-dark');
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button {
+  appearance: none;
+  outline: none;
+  border: none;
+  border-radius: rem(5px);
+  padding: rem(10px) rem(15px);
+  text-transform: uppercase;
+  color: color('gray-lightest');
+  cursor: pointer;
+  min-width: rem(140px);
+  font-size: rem(16px);
+  transition: transform .15s ease-in-out, box-shadow .15s ease-in-out, background-color .15s ease-in-out;
+  &.button-blue {
+    background-color: color('blue-light');
+    box-shadow: 0 rem(5px) color('blue-dark');
+    &:active {
+      box-shadow: 0 rem(2px) color('blue-dark');
+    }
+  }
+  &.button-red {
+    background-color: color('red-light');
+    box-shadow: 0 rem(5px) color('red-dark');
+    &:active {
+      box-shadow: 0 rem(2px) color('red-dark');
+    }
+  }
+  &:disabled {
+    cursor: default;
+    background-color: color('gray-light');
+    box-shadow: 0 rem(5px) color('gray-medium');
+  }
+  &:active {
+    transform: translateY(#{rem(3px)});
+  }
+}
+
+input[type="text"] {
+  appearance: none;
+  width: 100%;
+  height: rem(35px);
+  font-size: rem(16px);
+  color: color('gray-dark');
+  outline: none;
+  border: rem(1px) solid color('gray-light');
+  background-color: color('gray-lighter');
+  border-radius: rem(5px);
+  padding: 0 rem(15px);
+}
+
+.input-group {
+  width: 100%;
+  max-width: rem(500px);
+  display: flex;
+  & > *:not(:first-child) {
+    margin-left: rem(10px);
+  }
+}

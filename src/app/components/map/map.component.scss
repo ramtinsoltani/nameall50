@@ -1,0 +1,51 @@
+@import '../../../util';
+
+svg {
+  width: 100%;
+
+  path {
+    transition: fill .2s ease-in-out, stroke .2s ease-in-out;
+  }
+
+  #names path {
+    opacity: 0;
+    transition: opacity .2s ease-in-out;
+  }
+
+  #names g.show path {
+    opacity: 1;
+  }
+
+  #states .named {
+    fill: color('blue-light');
+  }
+
+  #states .unnamed {
+    fill: color('red-light');
+  }
+
+  #states g.named path {
+    fill: color('blue-light');
+  }
+
+  #states g.unnamed path {
+    fill: color('red-light');
+  }
+
+  #exts g.named .st0 {
+    fill: color('blue-light');
+  }
+
+  #exts g.unnamed .st0 {
+    fill: color('red-light');
+  }
+
+  #exts g.named .st1 {
+    stroke: color('blue-light');
+  }
+
+  #exts g.unnamed .st1 {
+    stroke: color('red-light');
+  }
+
+}

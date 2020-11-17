@@ -1,0 +1,48 @@
+@import '../../../util';
+
+h1 {
+  font-size: rem(32px);
+  font-weight: normal;
+  color: color('gray-dark');
+  margin: 0;
+}
+
+hr {
+  border: none;
+  border-bottom: rem(1px) solid color('gray-medium');
+}
+
+.leaderboards {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .item {
+    margin-top: rem(10px);
+    padding: rem(10px) rem(15px);
+    color: color('gray-dark');
+    border-radius: rem(5px);
+    display: flex;
+    justify-content: space-between;
+
+    span.name {
+      display: flex;
+      align-items: center;
+      svg {
+        width: rem(20px);
+        margin-right: rem(10px);
+      }
+    }
+
+    span.time {
+      color: color('blue-light');
+      font-weight: bold;
+    }
+
+    &:nth-child(odd) {
+      background-color: color('gray-lighter-background');
+    }
+
+  }
+
+}
