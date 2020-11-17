@@ -28,6 +28,8 @@
       align-items: center;
       svg {
         height: rem(40px);
+        width: rem(40px);
+        flex-shrink: 0;
         margin-right: rem(15px);
       }
     }
@@ -57,5 +59,18 @@
   .stripe-red {
     height: rem(5px);
     background-color: color('red-light');
+  }
+}
+
+@media (max-width: 570px) {
+  .header-content {
+    padding: 0 rem(20px);
+    span.title {
+      font-size: rem(20px);
+      svg { display: none; }
+    }
+    span.leaderboards {
+      font-size: rem(16px);
+    }
   }
 }
