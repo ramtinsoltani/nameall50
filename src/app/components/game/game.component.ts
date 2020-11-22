@@ -23,7 +23,7 @@ export class GameComponent implements OnInit, OnDestroy {
   public buttonsDisabled: boolean = false;
 
   constructor(
-    private app: AppService,
+    public app: AppService,
     private firestore: FirestoreService,
     private router: Router
   ) { }
@@ -131,6 +131,12 @@ export class GameComponent implements OnInit, OnDestroy {
     this.buttonsDisabled = false;
 
     this.router.navigate(['leaderboards']);
+
+  }
+
+  public onMicButtonClick() {
+
+    this.app.startSpeechRecognition();
 
   }
 

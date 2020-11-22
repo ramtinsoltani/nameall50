@@ -64,8 +64,82 @@ export class AppService {
   private gameSubject!: Subject<GameUpdate>;
   private gameInProgress: boolean = false;
   private timeRemaining: number = AppService.GAME_TIME; // In seconds
+  private SpeechRecognition = window.SpeechRecognition || (<any>window)['webkitSpeechRecognition'];
+  private SpeechGrammarList = window.SpeechGrammarList || (<any>window)['webkitSpeechGrammarList'];
+  private speech!: SpeechRecognition;
 
+  public isSpeechSupported = this.SpeechRecognition && this.SpeechGrammarList;
+  public speechStarted: boolean = false;
   public static GAME_TIME = 240;
+
+  constructor() {
+
+    // If not supported
+    if ( ! this.isSpeechSupported ) return;
+
+    this.speech = new this.SpeechRecognition();
+
+    // Define grammar (all state names)
+    const words = Object.keys(this.statesData);
+    const grammar = `#JSGF V1.0; grammar states; public <state> = ${words.join(' | ')} ;`;
+    const speechList = new this.SpeechGrammarList();
+    speechList.addFromString(grammar, 1);
+
+    // Configure speech recognition
+    this.speech.grammars = speechList;
+    this.speech.continuous = true;
+    this.speech.lang = 'en-US';
+    this.speech.interimResults = false;
+    this.speech.maxAlternatives = 1;
+
+    // Results handler
+    this.speech.onresult = event => {
+
+      const results = event.results.item(event.resultIndex).item(0).transcript.trim().toLowerCase();
+
+      for ( const word of words ) {
+
+        // Fix for 'west virginia' also selecting 'virginia'
+        if ( word === 'virginia' && results.includes(word) ) {
+
+          // Get all indices of 'virginia'
+          const indices = [];
+          let lastIndex = -1;
+
+          while ( (lastIndex = results.indexOf(word, lastIndex + 1)) >= 0 ) {
+
+            indices.push(lastIndex);
+
+          }
+
+          // Qualify if an occurrence is not preceded by 'west '
+          for ( const index of indices ) {
+
+            if ( results.substr(index - 5, 5) !== 'west ' ) {
+
+              this.checkInput(word);
+              break;
+
+            }
+
+          }
+
+        }
+        else if ( results.includes(word) ) this.checkInput(word);
+
+      }
+
+    };
+
+    this.speech.onend = () => {
+
+      this.speechStarted = false;
+
+      if ( this.gameInProgress ) this.startSpeechRecognition();
+
+    };
+
+  }
 
   public startGame(): GameData {
 
@@ -140,6 +214,8 @@ export class AppService {
 
     if ( ! this.gameInProgress ) return;
 
+    if ( this.isSpeechSupported && this.speechStarted ) this.speech.stop();
+
     this.gameSubject.next({ update: won ? UpdateState.GameWon : UpdateState.GameOver });
 
     // Clear timer and subjects
@@ -154,6 +230,24 @@ export class AppService {
   public getCurrentStatesData(): StatesData {
 
     return _.cloneDeep(this.statesData);
+
+  }
+
+  public startSpeechRecognition() {
+
+    if ( this.speechStarted || ! this.gameInProgress ) return;
+
+    // If not supported
+    if ( ! this.isSpeechSupported ) {
+
+      console.warn('Speech recognition is not supported!');
+      return;
+
+    }
+
+    // Start
+    this.speech.start();
+    this.speechStarted = true;
 
   }
 
