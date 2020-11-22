@@ -117,7 +117,7 @@ export class AppService {
 
             if ( results.substr(index - 5, 5) !== 'west ' ) {
 
-              this.checkInput(word);
+              this.checkInput(word, true);
               break;
 
             }
@@ -125,7 +125,7 @@ export class AppService {
           }
 
         }
-        else if ( results.includes(word) ) this.checkInput(word);
+        else if ( results.includes(word) ) this.checkInput(word, true);
 
       }
 
@@ -174,7 +174,7 @@ export class AppService {
 
   }
 
-  public checkInput(input: string): void {
+  public checkInput(input: string, speech?: boolean): void {
 
     if ( ! this.gameInProgress ) throw new Error('Game is not in progress!');
 
@@ -184,7 +184,8 @@ export class AppService {
 
         this.gameSubject.next({
           update: UpdateState.Identical,
-          stateName: input
+          stateName: input,
+          speech
         });
 
       }
@@ -194,7 +195,8 @@ export class AppService {
         this.gameSubject.next({
           update: UpdateState.Correct,
           stateName: input,
-          mapData: { mapId: this.statesData[input].mapId, mapExt: this.statesData[input].mapExt }
+          mapData: { mapId: this.statesData[input].mapId, mapExt: this.statesData[input].mapExt },
+          speech
         });
 
         // If all named
@@ -277,6 +279,7 @@ export interface GameUpdate {
   update: UpdateState;
   stateName?: string;
   mapData?: { mapId: string; mapExt: boolean; };
+  speech?: boolean;
 
 }
 

@@ -52,8 +52,8 @@ export class GameComponent implements OnInit, OnDestroy {
     });
     data.updates.subscribe(data => {
 
-      // Clear input
-      this.gameInput.nativeElement.value = '';
+      // Clear input (if not caused by speech recognition)
+      if ( ! data.speech ) this.gameInput.nativeElement.value = '';
 
       // If game ended
       if ( data.update === UpdateState.GameOver ) {
